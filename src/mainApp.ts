@@ -8,7 +8,7 @@ import LoggerHelper from "./utils/loggerHelper";
 import { Debugger } from "./utils/debugger";
 import bodyParser from "body-parser";
 import * as http from "http";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 
 export class MainApp {
   
@@ -24,7 +24,7 @@ export class MainApp {
     return mainApp;
   }
 
-  protected async init(): Promise<void> {
+  private async init(): Promise<void> {
     
     this.initLogger();
     this.initApplicationConfig();
@@ -52,7 +52,7 @@ export class MainApp {
   private initApplicationAndServer(): void {
 
     this.application = express();
-    this.application.use(cors(this.config.CORS_CONFIG));
+    this.application.use(cors(this.config.CORS_CONFIG as CorsOptions));
     this.application.use(express.json());
     this.server = http.createServer(this.application);
 
