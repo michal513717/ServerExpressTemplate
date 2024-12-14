@@ -9,6 +9,8 @@ import { Debugger } from "./utils/debugger";
 import bodyParser from "body-parser";
 import * as http from "http";
 import cors, { CorsOptions } from "cors";
+import { controllersCollection, managersCollection } from "./collections";
+import { ExampleController } from "./controllers/example.controller";
 
 export class MainApp {
   
@@ -30,9 +32,18 @@ export class MainApp {
     this.initApplicationConfig();
     this.initApplicationAndServer();
     this.initBasicDebug();
+    this.initManagers();
+    this.initControllers();
     this.initRoutes();
     this.startServer();
     this.setupCloseListeners();
+  }
+
+  private async initManagers(): Promise<void> {}
+
+  private async initControllers(): Promise<void> {
+
+    controllersCollection.add("exampleController", new ExampleController());
   }
 
   private initLogger(): void {

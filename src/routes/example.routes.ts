@@ -2,23 +2,28 @@ import { ExampleController } from "../controllers/example.controller";
 import { CommonRoutesConfig } from "../common/common.routes.config";
 import type { Application } from "express";
 import express from "express";
+import { controllersCollection } from "../collections";
 
 export class ExampleRoute extends CommonRoutesConfig {
 
-  constructor(app: Application) {
-    super(app, "Example Route", "0.0.1");
-  }
+    private exampleController!: ExampleController;
 
-  public override configureControllers(): void{}
+    constructor(app: Application) {
+        super(app, "Example Route", "0.0.1");
+    }
 
-  public override configureRoute(): Application {
+    public override configureControllers(): void {
+        this.exampleController = controllersCollection.getById('exampleController');
+    }
 
-    const exampleRouter = express.Router();
+    public override configureRoute(): Application {
 
-    exampleRouter.get('/ping', new ExampleController().exampleController);
+        const exampleRouter = express.Router();
 
-    this.app.use('/example', exampleRouter);
+        exampleRouter.get('/ping', this.exampleController.exampleController);
 
-    return this.getApp();
-  }
+        this.app.use('/example', exampleRouter);
+
+        return this.getApp();
+    }
 }
