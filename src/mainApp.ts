@@ -43,7 +43,7 @@ export class MainApp {
 
   private async initControllers(): Promise<void> {
 
-    controllersCollection.add("exampleController", new ExampleController());
+    controllersCollection.add("exampleController", await ExampleController.createClassInstance());
   }
 
   private initLogger(): void {
